@@ -1,0 +1,71 @@
+name: $(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+  branches:
+    include:
+    - main
+    - test
+    - uat
+    - releases/*
+  paths:
+    include:
+    - functions/*
+
+pool:
+  name: Keka CI
+
+variables:
+  RestoreBuildProjects: 'functions/*/*LambdaApp.csproj'
+  BuildConfiguration: 'Release'
+
+steps:
+- checkout: self
+  fetchDepth: 0
+  persistCredentials: true
+
+- task: NuGetAuthenticate@1
+  displayName: 'NuGet Authenticate'
+
+- task: PowerShell@2
+  displayName: 'Update Package Version'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $buildNumber = "$(Build.BuildNumber)"
+      $packageVersion = "{0}.{1}.{2}.{3}" -f $buildNumber.Substring(0, 4), $buildNumber.Substring(4, 2), $buildNumber.Substring(6, 2), $buildNumber.Substring(9)
+      .\scripts\updateVersion.ps1 -PackageVersion $packageVersion
+      Write-Host "Updated Version to" $packageVersion
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: 'restore'
+    projects: '$(RestoreBuildProjects)'
+    feedsToUse: 'select'
+    vstsFeed: 'kekahr'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: build
+    projects: '$(RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration)'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '$(RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)\\drop"'
+    zipAfterPublish: true
+    modifyOutputPath: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\\drop'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'

@@ -1,0 +1,71 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="GlobalUsings.cs" company="Keka Inc">
+//     Copyright (c) Keka.com. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+global using System.Collections.Concurrent;
+global using System.Data;
+global using System.Net;
+global using Autofac;
+global using AutoMapper;
+global using AutoMapper.Contrib.Autofac.DependencyInjection;
+global using Azure.Identity;
+global using Dapper;
+global using Dapper.Contrib.Extensions;
+global using Keka.Application;
+global using Keka.Auth;
+global using Keka.Auth.Distributed;
+global using Keka.Docs.Swagger;
+global using Keka.EventBus.Abstractions;
+global using Keka.EventBus.ServiceBus;
+global using Keka.HTTP;
+global using Keka.Metrics.Prometheus;
+global using Keka.Monitoring.ApplicationInsights;
+global using Keka.MultiTenancy;
+global using Keka.Notifications.Abstractions.Email;
+global using Keka.Notifications.AmazonSES;
+global using Keka.Notifications.AmazonSES.Models;
+global using Keka.Notifications.Application.Extensions;
+global using Keka.Notifications.Application.Services.Interfaces;
+global using Keka.Notifications.Core.Enums;
+global using Keka.Notifications.Core.Events;
+global using Keka.Notifications.Core.Exceptions;
+global using Keka.Notifications.Core.Models;
+global using Keka.Notifications.Core.Models.EmailMessages;
+global using Keka.Notifications.Core.Models.Employees;
+global using Keka.Notifications.Core.Models.InAppNotifications;
+global using Keka.Notifications.Core.Models.Jobs;
+global using Keka.Notifications.Core.Models.PushNotifications;
+global using Keka.Notifications.Core.Models.Slack;
+global using Keka.Notifications.Core.Models.Sms;
+global using Keka.Notifications.Core.Models.Wa;
+global using Keka.Notifications.Core.Models.Webhook;
+global using Keka.Notifications.Core.Repositories;
+global using Keka.Notifications.Infrastructure.Aggregates;
+global using Keka.Notifications.Infrastructure.Database;
+global using Keka.Notifications.Infrastructure.Database.DbModels;
+global using Keka.Notifications.Infrastructure.Database.DbModels.TableStorage;
+global using Keka.Notifications.Infrastructure.Database.Repositories;
+global using Keka.Notifications.Infrastructure.Database.Repositories.BlobStorage;
+global using Keka.Notifications.Infrastructure.Database.Repositories.Cached;
+global using Keka.Notifications.Infrastructure.Database.Repositories.TableStorage;
+global using Keka.Notifications.Infrastructure.Database.SQLQueries;
+global using Keka.Notifications.Infrastructure.Database.TypeHandlers;
+global using Keka.Notifications.Infrastructure.DataMapperProfiles;
+global using Keka.Notifications.Infrastructure.Exceptions;
+global using Keka.Notifications.Infrastructure.Registrations;
+global using Keka.Notifications.Infrastructure.Services;
+global using Keka.OAuth2;
+global using Keka.Persistence.Blobs;
+global using Keka.Persistence.Redis;
+global using Keka.Persistence.Tables;
+global using Keka.Security;
+global using Keka.SupportOps;
+global using Keka.WebApi;
+global using Keka.WebApi.Exceptions;
+global using Keka.WebApi.Swagger;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.Data.SqlClient;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;

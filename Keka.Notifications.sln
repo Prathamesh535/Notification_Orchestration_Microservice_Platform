@@ -1,0 +1,138 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{486C1C79-2C1C-48A5-B8AD-E629D417EC70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6836DB8B-CEA3-4F9D-9856-483AA5D607CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{37E99E44-A63E-411A-A8B6-516D8F6807C3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		NuGet.Config = NuGet.Config
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.WebAPI", "src\Keka.Notifications.WebAPI\Keka.Notifications.WebAPI.csproj", "{C9F23971-4C72-46B2-9CF8-C7A01912CC66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.Application", "src\Keka.Notifications.Application\Keka.Notifications.Application.csproj", "{0F64420E-BF5D-47E2-9E1A-0B662CF66DBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.Core", "src\Keka.Notifications.Core\Keka.Notifications.Core.csproj", "{A5547613-83F3-4C2E-A849-D52FF441BFED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.Infrastructure", "src\Keka.Notifications.Infrastructure\Keka.Notifications.Infrastructure.csproj", "{229ABA77-70BB-412C-A645-929C79258A41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.Worker", "worker\Keka.Notifications.Worker\Keka.Notifications.Worker.csproj", "{A606467C-7E21-426E-A922-49FA24A97ABC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.UnitTests", "tests\Keka.Notifications.UnitTests\Keka.Notifications.UnitTests.csproj", "{F3E8677B-5F52-4A55-A3F7-6E79FE28E2F9}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Keka.Notifications.DB", "db\Keka.Notifications.DB\Keka.Notifications.DB.sqlproj", "{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.DB.Migrator", "db\Keka.Notifications.DB.Migrator\Keka.Notifications.DB.Migrator.csproj", "{148FF77F-B868-4A89-AFA7-B532A5B0B74F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.EmailFunctionApp", "functions\Keka.Notifications.EmailFunctionApp\Keka.Notifications.EmailFunctionApp.csproj", "{89C7CC45-60D9-4F6B-9438-E00BFD5BB729}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "clients", "clients", "{4D3E7FC4-7318-4C32-9D27-CD57A56E6673}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{3BD7EC68-01AB-4893-9966-76B5A61D7026}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{7BC34A4F-6789-477B-8C8C-5C92D7D8D67D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keka.Notifications.Client", "Keka.Notifications.Client", "{2AEA5B52-74DF-40DF-833E-CCCB0A4D787B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1CD1EB07-E08E-4D3F-8B3E-02190C578AA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worker", "worker", "{FBF70ADD-279F-4285-A19E-F4894B5587E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B8874A86-A1DE-45A0-B96A-F472CAC49371}"
+	ProjectSection(SolutionItems) = preProject
+		clients\Keka.Notifications.Client\scripts\dotnet-pack.ps1 = clients\Keka.Notifications.Client\scripts\dotnet-pack.ps1
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.Client", "clients\Keka.Notifications.Client\src\Keka.Notifications.Client\Keka.Notifications.Client.csproj", "{2F48F3FF-E1C3-493E-A962-4EB624350977}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.EmailLambdaApp", "functions\Keka.Notifications.EmailLambdaApp\Keka.Notifications.EmailLambdaApp.csproj", "{BBDA0BCE-2A58-47DD-8C47-048604AB9439}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keka.Notifications.MessagingFunctionApp", "functions\Keka.Notifications.MessagingFunctionApp\Keka.Notifications.MessagingFunctionApp.csproj", "{755285D9-56B1-4FD7-9468-910F39E06DBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9F23971-4C72-46B2-9CF8-C7A01912CC66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F23971-4C72-46B2-9CF8-C7A01912CC66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F23971-4C72-46B2-9CF8-C7A01912CC66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F23971-4C72-46B2-9CF8-C7A01912CC66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F64420E-BF5D-47E2-9E1A-0B662CF66DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F64420E-BF5D-47E2-9E1A-0B662CF66DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F64420E-BF5D-47E2-9E1A-0B662CF66DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F64420E-BF5D-47E2-9E1A-0B662CF66DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5547613-83F3-4C2E-A849-D52FF441BFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5547613-83F3-4C2E-A849-D52FF441BFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5547613-83F3-4C2E-A849-D52FF441BFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5547613-83F3-4C2E-A849-D52FF441BFED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{229ABA77-70BB-412C-A645-929C79258A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229ABA77-70BB-412C-A645-929C79258A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229ABA77-70BB-412C-A645-929C79258A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229ABA77-70BB-412C-A645-929C79258A41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A606467C-7E21-426E-A922-49FA24A97ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A606467C-7E21-426E-A922-49FA24A97ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A606467C-7E21-426E-A922-49FA24A97ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A606467C-7E21-426E-A922-49FA24A97ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E8677B-5F52-4A55-A3F7-6E79FE28E2F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E8677B-5F52-4A55-A3F7-6E79FE28E2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E8677B-5F52-4A55-A3F7-6E79FE28E2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E8677B-5F52-4A55-A3F7-6E79FE28E2F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{148FF77F-B868-4A89-AFA7-B532A5B0B74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148FF77F-B868-4A89-AFA7-B532A5B0B74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148FF77F-B868-4A89-AFA7-B532A5B0B74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148FF77F-B868-4A89-AFA7-B532A5B0B74F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C7CC45-60D9-4F6B-9438-E00BFD5BB729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C7CC45-60D9-4F6B-9438-E00BFD5BB729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C7CC45-60D9-4F6B-9438-E00BFD5BB729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C7CC45-60D9-4F6B-9438-E00BFD5BB729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F48F3FF-E1C3-493E-A962-4EB624350977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F48F3FF-E1C3-493E-A962-4EB624350977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F48F3FF-E1C3-493E-A962-4EB624350977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F48F3FF-E1C3-493E-A962-4EB624350977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBDA0BCE-2A58-47DD-8C47-048604AB9439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBDA0BCE-2A58-47DD-8C47-048604AB9439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBDA0BCE-2A58-47DD-8C47-048604AB9439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBDA0BCE-2A58-47DD-8C47-048604AB9439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{755285D9-56B1-4FD7-9468-910F39E06DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{755285D9-56B1-4FD7-9468-910F39E06DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{755285D9-56B1-4FD7-9468-910F39E06DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{755285D9-56B1-4FD7-9468-910F39E06DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9F23971-4C72-46B2-9CF8-C7A01912CC66} = {486C1C79-2C1C-48A5-B8AD-E629D417EC70}
+		{0F64420E-BF5D-47E2-9E1A-0B662CF66DBD} = {486C1C79-2C1C-48A5-B8AD-E629D417EC70}
+		{A5547613-83F3-4C2E-A849-D52FF441BFED} = {486C1C79-2C1C-48A5-B8AD-E629D417EC70}
+		{229ABA77-70BB-412C-A645-929C79258A41} = {486C1C79-2C1C-48A5-B8AD-E629D417EC70}
+		{A606467C-7E21-426E-A922-49FA24A97ABC} = {FBF70ADD-279F-4285-A19E-F4894B5587E1}
+		{F3E8677B-5F52-4A55-A3F7-6E79FE28E2F9} = {6836DB8B-CEA3-4F9D-9856-483AA5D607CD}
+		{0E2E4F22-A5CA-414F-9C34-3AD8828DA386} = {7BC34A4F-6789-477B-8C8C-5C92D7D8D67D}
+		{148FF77F-B868-4A89-AFA7-B532A5B0B74F} = {7BC34A4F-6789-477B-8C8C-5C92D7D8D67D}
+		{89C7CC45-60D9-4F6B-9438-E00BFD5BB729} = {3BD7EC68-01AB-4893-9966-76B5A61D7026}
+		{2AEA5B52-74DF-40DF-833E-CCCB0A4D787B} = {4D3E7FC4-7318-4C32-9D27-CD57A56E6673}
+		{1CD1EB07-E08E-4D3F-8B3E-02190C578AA8} = {2AEA5B52-74DF-40DF-833E-CCCB0A4D787B}
+		{B8874A86-A1DE-45A0-B96A-F472CAC49371} = {2AEA5B52-74DF-40DF-833E-CCCB0A4D787B}
+		{2F48F3FF-E1C3-493E-A962-4EB624350977} = {1CD1EB07-E08E-4D3F-8B3E-02190C578AA8}
+		{BBDA0BCE-2A58-47DD-8C47-048604AB9439} = {3BD7EC68-01AB-4893-9966-76B5A61D7026}
+		{755285D9-56B1-4FD7-9468-910F39E06DBF} = {3BD7EC68-01AB-4893-9966-76B5A61D7026}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC9C065D-D91D-4A26-BA6E-2EA6E5D9B8A2}
+	EndGlobalSection
+EndGlobal

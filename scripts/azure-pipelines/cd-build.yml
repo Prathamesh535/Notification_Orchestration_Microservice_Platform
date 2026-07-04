@@ -1,0 +1,324 @@
+name: $(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/*
+      - tests/*
+      - worker/*
+
+variables:
+  BuildRestoreProjects: '**/*.csproj'
+  UnitTestProjects: '**/*UnitTests.csproj'
+  SonarProjectKey: 'kekahr_Notifications'
+  SonarProjectName: 'Notifications'
+  BuildConfiguration: 'Release'
+  ResourceGroupName: 'rg-keka-dev-cin'
+  AzureSubscription: 'keka-dev'
+  WorkerAppServiceName: 'app-keka-notifications-worker-stage-cin'
+  WebAPIAppServiceName: 'app-keka-notifications-webapi-stage-cin'
+  WorkerRole: 'Keka.Notifications.Worker'
+  WebRole: 'Keka.Notifications.WebAPI'
+
+stages:
+- stage:
+  displayName: 'Build Solution'
+  jobs:
+  - job: Build
+    displayName: 'Build Solution'
+    pool:
+      name: Keka CI
+    workspace:
+      clean: outputs
+    steps:
+    - checkout: self
+      fetchDepth: 0
+      persistCredentials: true
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'NuGet Authenticate'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: 'restore'
+        projects: '$(BuildRestoreProjects)'
+        feedsToUse: 'select'
+        vstsFeed: 'kekahr'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: build
+        projects: '$(BuildRestoreProjects)'
+        arguments: '--configuration $(BuildConfiguration)'
+
+  - job: Tests
+    displayName: 'Run Tests'
+    dependsOn:
+      - Build
+    pool:
+      name: Keka CI
+    workspace:
+      clean: outputs
+    steps:
+    - checkout: self
+      fetchDepth: 0
+      persistCredentials: true
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'NuGet Authenticate'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: 'restore'
+        projects: '$(BuildRestoreProjects)'
+        feedsToUse: 'select'
+        vstsFeed: 'kekahr'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: build
+        projects: '$(BuildRestoreProjects)'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Unit Tests'
+      inputs:
+        command: test
+        projects: '$(UnitTestProjects)'
+        arguments: '--collect:"XPlat Code Coverage;Format=cobertura,opencover" '
+        testRunTitle: 'Unit Tests'
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish Unit Test results'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Agent.TempDirectory)\*\coverage.cobertura.xml'
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish Integration Test results'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Agent.TempDirectory)\*\coverage.cobertura.xml'
+
+- stage:
+  displayName: 'Static Analysis'
+  jobs:
+  - job:
+    displayName: 'SAST'
+    pool:
+      name: Keka CI
+    steps:
+    - task: NuGetAuthenticate@1
+      displayName: 'NuGet Authenticate'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: 'restore'
+        projects: '$(BuildRestoreProjects)'
+        feedsToUse: 'select'
+        vstsFeed: 'kekahr'
+
+    - task: SonarCloudPrepare@1
+      displayName: 'Prepare analysis on SonarCloud'
+      inputs:
+        SonarCloud: 'SonarCloud Keka'
+        organization: keka
+        projectKey: '$(SonarProjectKey)'
+        projectName: '$(SonarProjectName)'
+        extraProperties: |
+          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)\*\coverage.opencover.xml
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: build
+        projects: '$(BuildRestoreProjects)'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: SonarCloudAnalyze@1
+      displayName: 'Run Static Code Analysis'
+
+    - task: SonarCloudPublish@1
+      displayName: 'Publish Quality Gate Result'
+
+  - job:
+    displayName: 'SCA'
+    pool:
+      name: Keka CI
+    steps:
+    - script: echo We need to enable nuget package scanning for vulnerabilities
+
+- stage:
+  displayName: 'Publish Artifacts'
+  jobs:
+  - job: Publish
+    displayName: 'Publish Artifacts'
+    pool:
+      name: Keka CI
+    workspace:
+      clean: outputs
+    steps:
+    - checkout: self
+      fetchDepth: 0
+      persistCredentials: true
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'NuGet Authenticate'
+
+    - task: PowerShell@2
+      displayName: 'Update Package Version'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $buildNumber = "$(Build.BuildNumber)"
+          $packageVersion = "{0}.{1}.{2}.{3}" -f $buildNumber.Substring(0, 4), $buildNumber.Substring(4, 2), $buildNumber.Substring(6, 2), $buildNumber.Substring(9)
+          .\scripts\updateVersion.ps1 -PackageVersion $packageVersion
+          Write-Host "Updated Version to" $packageVersion
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: 'restore'
+        projects: '$(BuildRestoreProjects)'
+        feedsToUse: 'select'
+        vstsFeed: 'kekahr'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: build
+        projects: '$(BuildRestoreProjects)'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet publish'
+      inputs:
+        command: publish
+        publishWebProjects: true
+        arguments: '--configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)\\drop"'
+        zipAfterPublish: true
+        modifyOutputPath: true
+
+    - task: CopyFiles@2
+      displayName: 'Copy DB Migration Scripts'
+      inputs:
+        SourceFolder: 'db'
+        Contents: '**\*.DB.Migrator\Scripts\**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)\\drop\\MigrationScripts\\'
+        CleanTargetFolder: true
+        OverWrite: true
+        flattenFolders: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)\\drop'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage:
+  displayName: 'Deploy To Stage'
+  jobs:
+  - job:
+    displayName: 'Deploy to Staging'
+    steps:
+    - checkout: none
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+        cleanDestinationFolder: true
+    - task: AzureRmWebAppDeployment@4
+      displayName: 'Deploy Worker Role'
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: '$(AzureSubscription)'
+        appType: 'webAppLinux'
+        WebAppName: '$(WorkerAppServiceName)'
+        deployToSlotOrASE: true
+        ResourceGroupName: '$(ResourceGroupName)'
+        SlotName: 'staging'
+        packageForLinux: '$(System.ArtifactsDirectory)/**/*Worker.zip'
+        StartupCommand: 'dotnet exec $(WorkerRole).dll'
+
+    - task: AzureRmWebAppDeployment@4
+      displayName: 'Deploy WebAPI Role'
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: '$(AzureSubscription)'
+        appType: 'webAppLinux'
+        WebAppName: '$(WebAPIAppServiceName)'
+        deployToSlotOrASE: true
+        ResourceGroupName: '$(ResourceGroupName)'
+        SlotName: 'staging'
+        packageForLinux: '$(System.ArtifactsDirectory)/**/*WebAPI.zip'
+        StartupCommand: 'dotnet exec $(WebRole).dll'
+    
+    - task: AzureAppServiceManage@0
+      displayName: 'Start Swap Preview Worker Role'
+      inputs:
+        azureSubscription: '$(AzureSubscription)'
+        Action: 'Start Swap With Preview'
+        WebAppName: '$(WorkerAppServiceName)'
+        ResourceGroupName: '$(ResourceGroupName)'
+        SourceSlot: 'staging'
+    
+    - task: AzureAppServiceManage@0
+      displayName: 'Start Swap Preview WebAPI Role'
+      inputs:
+        azureSubscription: '$(AzureSubscription)'
+        Action: 'Start Swap With Preview'
+        WebAppName: '$(WebAPIAppServiceName)'
+        ResourceGroupName: '$(ResourceGroupName)'
+        SourceSlot: 'staging'
+    
+    - task: AzureAppServiceManage@0
+      displayName: 'Complete Swap Worker Role'
+      inputs:
+        azureSubscription: '$(AzureSubscription)'
+        Action: 'Complete Swap'
+        WebAppName: '$(WorkerAppServiceName)'
+        ResourceGroupName: '$(ResourceGroupName)'
+        SourceSlot: 'staging'
+    
+    - task: AzureAppServiceManage@0
+      displayName: 'Complete Swap WebAPI Role'
+      inputs:
+        azureSubscription: '$(AzureSubscription)'
+        Action: 'Complete Swap'
+        WebAppName: '$(WebAPIAppServiceName)'
+        ResourceGroupName: '$(ResourceGroupName)'
+        SourceSlot: 'staging'
+
+- stage:
+  displayName: 'Dynamic Analysis'
+  jobs:
+  - job: DAST
+    pool:
+      name: Keka CI
+  - job: VA
+    pool:
+      name: Keka CI
+
+- stage:
+  displayName: 'Acceptance Tests'
+  jobs:
+  - job:
+    displayName: 'UI Tests'
+    pool:
+      name: Keka CI
+      
+  - job:
+    displayName: 'API Tests'
+    pool:
+      name: Keka CI

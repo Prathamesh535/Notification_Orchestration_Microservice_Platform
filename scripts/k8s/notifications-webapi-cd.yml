@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: notifications
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-webapi-deploy
+  namespace: notifications
+  labels:
+    name: notifications-webapi-deploy
+    app: notifications-webapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: notifications-webapi-pod
+      app: notifications-webapi
+  template:
+    metadata:
+      name: notifications-webapi-pod
+      labels:
+        name: notifications-webapi-pod
+        app: notifications-webapi
+    spec:
+      containers:
+        - name: notifications-webapi
+          image: acrkekadevcin.azurecr.io/keka/notifications.webapi:main
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: notifications-webapi-service
+  namespace: notifications
+  labels:
+    name: notifications-webapi-service
+    app: notifications-webapi
+spec:
+  type: ClusterIP
+  selector:
+    name: notifications-webapi-pod
+    app: notifications-webapi
+  ports:
+    - port: 80

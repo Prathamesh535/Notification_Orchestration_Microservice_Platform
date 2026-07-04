@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Keka Inc",
+      "copyrightText": "    Copyright (c) Keka.com. All rights reserved.",
+      "headerDecoration": "-----------------------------------------------------------------------"
+    }
+  },
+  "orderingRules": {
+    "usingDirectivesPlacement": "outsideNamespace"
+  }
+}

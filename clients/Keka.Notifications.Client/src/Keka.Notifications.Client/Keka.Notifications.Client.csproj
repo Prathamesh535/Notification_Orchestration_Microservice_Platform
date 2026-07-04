@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<Authors>Vasanth</Authors>
+		<Company>Keka Inc</Company>
+		<AssemblyName>Keka.Notifications.Client</AssemblyName>
+		<Title>Keka.Notifications.Client</Title>
+		<PackageId>Keka.Notifications.Client</PackageId>
+		<Description>This package is used for making calls to Notification server for sending notifications.</Description>
+		<Copyright>Copyright Keka 2024</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://dev.azure.com/kekahr/Platform/_git/Notifications</PackageProjectUrl>
+		<PackageTags>Keka.Notifications.Client</PackageTags>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<SonarQubeExclude>true</SonarQubeExclude>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Keka.Application" Version="1.2.70" />
+		<PackageReference Include="Keka.HTTP" Version="1.2.70" />
+		<PackageReference Include="Keka.MultiTenancy" Version="1.2.70" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+// Global using directives
+
+global using Autofac;
+global using Autofac.Extensions.DependencyInjection;
+global using Azure.Identity;
+global using Keka.Application;
+global using Keka.HTTP;
+global using Keka.Logging;
+global using Keka.MultiTenancy;
+global using Keka.Notifications.Abstractions.Push;
+global using Keka.Notifications.Abstractions.SMS;
+global using Keka.Notifications.Abstractions.WA;
+global using Keka.Notifications.Abstractions.Slack;
+global using Keka.Notifications.Application.Extensions;
+global using Keka.Notifications.Application.Services.Interfaces;
+global using Keka.Notifications.Core.Events;
+global using Keka.Notifications.Firebase;
+global using Keka.Notifications.Firebase.Models;
+global using Keka.Notifications.Infrastructure;
+global using Keka.Notifications.Msg91;
+global using Keka.Notifications.Msg91.Models;
+global using Keka.Notifications.OneSignal;
+global using Keka.Notifications.Slack;
+global using Keka.Notifications.Wa.Msg91;
+global using Microsoft.Azure.Functions.Worker;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;

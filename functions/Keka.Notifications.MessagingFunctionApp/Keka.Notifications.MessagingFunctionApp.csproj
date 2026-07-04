@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+        <OutputType>Exe</OutputType>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Azure.Identity" Version="1.10.4" />
+        <PackageReference Include="Keka.MultiTenancy" Version="1.2.70" />
+		<PackageReference Include="Keka.Logging" Version="1.2.70" />
+        <PackageReference Include="Keka.Notifications.Msg91" Version="1.2.70" />
+        <PackageReference Include="Keka.Notifications.Firebase" Version="1.2.70" />
+		<PackageReference Include="Keka.Notifications.OneSignal" Version="1.2.70" />
+		<PackageReference Include="Keka.Notifications.Slack" Version="1.2.70" />
+		<PackageReference Include="Keka.Persistence.Redis" Version="1.2.70" />
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.21.0" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.1.0" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="1.2.1" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.17.0" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.2" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="host.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Keka.Notifications.Infrastructure\Keka.Notifications.Infrastructure.csproj" />
+    </ItemGroup>
+</Project>

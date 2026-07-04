@@ -1,0 +1,82 @@
+name: $(date:yyyyMMdd)$(rev:.r)
+
+trigger: none
+
+pr:
+  - main
+  - test
+  - uat
+  - releases/*
+  - features/*
+
+pool:
+  name: Keka PR
+
+variables:
+  RestoreBuildProjects: '**/*.csproj'
+  TestProjects: '**/*Tests.csproj'
+  SonarProjectKey: 'kekahr_Notifications'
+  SonarProjectName: 'Notifications'
+  BuildConfiguration: 'Release'
+
+steps:
+- checkout: self
+  fetchDepth: 0
+  persistCredentials: true
+
+- task: NuGetAuthenticate@1
+  displayName: 'NuGet Authenticate'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: 'restore'
+    projects: '$(RestoreBuildProjects)'
+    feedsToUse: 'select'
+    vstsFeed: 'kekahr'
+
+- task: PRMetrics@1
+  displayName: 'PR Metrics'
+  env:
+    PR_Metrics_Access_Token: $(PR_Metrics_Access_Token)
+
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis on SonarCloud'
+  inputs:
+    SonarCloud: 'SonarCloud Keka'
+    organization: keka
+    projectKey: '$(SonarProjectKey)'
+    projectName: '$(SonarProjectName)'
+    extraProperties: |
+     # Additional properties that will be passed to the scanner, 
+     # Put one key=value per line, example:
+     # sonar.exclusions=**/*.bin
+     sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)\*\coverage.opencover.xml
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: build
+    projects: '$(RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '$(TestProjects)'
+    arguments: '--collect:"XPlat Code Coverage;Format=cobertura,opencover" '
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage results'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Agent.TempDirectory)\*\coverage.cobertura.xml'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'
+  inputs:
+    jdkversion: 'JAVA_HOME'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish Quality Gate Result'

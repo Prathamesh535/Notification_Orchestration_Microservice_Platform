@@ -1,0 +1,36 @@
+variables:
+  Patch: $[counter(format('{0}.{1}', variables['Major'], variables['Minor']), 0)]
+
+name: $(Major).$(Minor).$(Patch)
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - clients/*
+
+pool:
+  name: Keka CI
+
+steps:
+- checkout: self
+  fetchDepth: 0
+
+- task: NuGetAuthenticate@1
+  displayName: 'NuGet Authenticate'
+
+- task: PowerShell@2
+  displayName: 'Update Package Version'
+  inputs:
+    targetType: 'filePath'
+    filePath: 'scripts/updateVersion.ps1'
+    arguments: '-PackageVersion $(Build.BuildNumber)'
+
+- task: PowerShell@2
+  displayName: 'Build and Push Packages'
+  inputs:
+    targetType: 'filePath'
+    filePath: 'scripts/pack.ps1'
+    arguments: '-PackageVersion $(Build.BuildNumber) -SourceBranchName $(Build.SourceBranchName)'

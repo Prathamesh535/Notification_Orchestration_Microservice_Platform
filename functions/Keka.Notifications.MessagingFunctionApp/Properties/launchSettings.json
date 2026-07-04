@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Keka.Notifications.MessagingFunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7266",
+      "launchBrowser": false
+    }
+  }
+}
